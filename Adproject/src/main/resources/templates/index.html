@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register Form</title>
+</head>
+<body>
+  <form action="/sql" method="post" autocomplete="on">
+    <fieldset style="width:400px; padding:16px;">
+      <legend style="text-align:center;">Register Form</legend>
+
+      <!-- Username -->
+      <label for="uname">Username</label><br/>
+      <input type="text" id="uname" name="uname" placeholder="Enter username" required maxlength="50"/><br/><br/>
+
+      <!-- Email -->
+      <label for="uemail">Email</label><br/>
+      <input type="email" id="uemail" name="uemail" placeholder="name@example.com" required /><br/><br/>
+
+      <!-- Phone -->
+      <label for="phone">Phone</label><br/>
+      <input type="tel" id="phone" name="phone"
+             placeholder="10-digit number"
+             pattern="[0-9]{10}"
+             title="Enter a 10-digit phone number"
+             required /><br/><br/>
+
+      <!-- Password -->
+      <label for="password">Password</label><br/>
+      <input type="password" id="password" name="password"
+             minlength="6" maxlength="64"
+             placeholder="Min 6 characters"
+             required /><br/><br/>
+
+      <!-- Gender -->
+      <span>Gender</span><br/>
+      <label><input type="radio" name="gender" value="male" required /> Male</label>
+      <label><input type="radio" name="gender" value="female" /> Female</label>
+      <label><input type="radio" name="gender" value="others" /> Others</label>
+      <br/><br/>
+
+      <!-- Languages -->
+      <span>Languages</span><br/>
+      <label><input type="checkbox" name="languages" value="English" /> English</label>
+      <label><input type="checkbox" name="languages" value="Hindi" /> Hindi</label>
+      <label><input type="checkbox" name="languages" value="Telugu" /> Telugu</label>
+      <label><input type="checkbox" name="languages" value="Tamil" /> Tamil</label>
+      <label><input type="checkbox" name="languages" value="Kannada" /> Kannada</label>
+      <br/><br/>
+
+      <button type="submit">Submit</button>
+      <button type="reset">Reset</button>
+    </fieldset>
+  </form>
+</body>
+</html>

@@ -1,0 +1,73 @@
+package com.example.twd;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Chain extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Forward to login.html from static resources
+        request.getRequestDispatcher("/login.html").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        if (username == null || password == null || username.trim().isEmpty() || password.trim().isEmpty()) {
+            out.println("<h2>Username and Password cannot be empty!</h2>");
+            return;
+        }
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            try (Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/user_db", "root", "")) {
+
+                String sql = "SELECT * FROM users WHERE uname = ? AND password = ?";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, username);
+                ps.setString(2, password);
+
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("username", username);
+
+                    out.println("<h2>Login successful!</h2>");
+                    // Example: redirect to a new page after login
+                    // response.sendRedirect("/welcome.html");
+                } else {
+                    out.println("<h2>Invalid username or password!</h2>");
+                }
+
+            } catch (SQLException e) {
+                out.println("<h2>Database error occurred!</h2>");
+                e.printStackTrace(out);
+            }
+
+        } catch (ClassNotFoundException e) {
+            out.println("<h2>MySQL JDBC Driver not found!</h2>");
+            e.printStackTrace(out);
+        }
+    }
+}
