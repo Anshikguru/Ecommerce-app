@@ -31,7 +31,7 @@ public class C extends HttpServlet {
             if (languages != null) {
                 langStr = String.join(",", languages);
             }
-
+            System.out()
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
 
